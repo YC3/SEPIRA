@@ -1,7 +1,7 @@
 # SEPIRA-package
 Systens EPigenomics Inference of Regulatory Activity
 
-`SEPIRA` is a novel algorithm which estimates transcription factor activity in any given sample from its genome-wide mRNA expression or DNA methylation profile[@Chen2017]. It encompasses two main steps:
+`SEPIRA` is a novel algorithm which estimates transcription factor activity in any given sample from its genome-wide mRNA expression or DNA methylation profile. It encompasses two main steps:
 
 1. Construction of a tissue-specific transcription factor regulatory network, consisting of transcription factors that are more highly expressed in the user-specified tissue type (the 'tissue type of interest') compared to other tissue types, plus an associated set of high-confidence downstream targets.
 2. Estimation of transcription factor activity in this network, in any given dataset consisting of gene expression or promoter DNA methylation profiles.
