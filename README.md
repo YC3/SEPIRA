@@ -28,7 +28,7 @@ An easy way to install SEPIRA is by facilitating the devtools R package.
 ```{r eval=FALSE}
 #install.packages("devtools")
 library(devtools)
-install_github("YC3/SEPIRA-package", build_vignettes=TRUE)
+install_github("YC3/SEPIRA", build_vignettes=TRUE)
 ```
 Alternatively, the package can also be cloned or downloaded from this github-rep, built via R CMD build and installed via the R CMD INSTALL command.
 
