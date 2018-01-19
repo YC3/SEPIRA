@@ -8,7 +8,7 @@ Systens EPigenomics Inference of Regulatory Activity
 
 To infer the network, we use the large [GTEx](https://www.gtexportal.org/home/) RNA-seq data set encompassing 8555 samples from about 30 tissue types. With this inferred network, we can then estimate transcription factor activity in samples from other data sets. Due to the large size of the GTEx data set we did not include it in our package. However, in order to gain an appreciation for the SEPIRA algorithm we show the results obtained by applying it to this full dataset. Then we validate it using an RNA-seq data set from Protein Atlas and a DNA methylation data set from the Stem-cell matrix compendium-2 (SCM2).
 
-### How to use
+## Usage
 ```{r echo=FALSE}
 knitr::opts_chunk$set(fig.pos="h", out.extra='', fig.align="center")
 ```
@@ -27,5 +27,19 @@ net.o <- sepiraInfNet(data=data.m, tissue=colnames(data.m), toi = "Lung", cft = 
 sepiraRegAct(data = data.m, type = "DNAm", regnet = net.o$netTOI, norm = "z", ncores = 1)
 ```
 
-## Getting started
+## Installation
+
+An easy way to install SEPIRA is by facilitating the devtools R package.
+
+#install.packages("devtools")
+library(devtools)
+install_github("YC3/SEPIRA", build_vignettes=TRUE)
+
+Alternatively, the package can also be cloned or downloaded from this github-rep, built via R CMD build and installed via the R CMD INSTALL command.
+Getting started
+
+The SEPIRA package contains a tutorial showing people how to implement SEPIRA in their work. The tutorial can be found in the package-vignette:
+
+library(SEPIRA)
+vignette("SEPIRA")
 
