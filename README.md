@@ -36,10 +36,13 @@ library(devtools)
 install_github("YC3/SEPIRA", build_vignettes=TRUE)
 
 Alternatively, the package can also be cloned or downloaded from this github-rep, built via R CMD build and installed via the R CMD INSTALL command.
-Getting started
 
+## Getting started
 The SEPIRA package contains a tutorial showing people how to implement SEPIRA in their work. The tutorial can be found in the package-vignette:
 
 library(SEPIRA)
 vignette("SEPIRA")
 
+## Acknowledgements
+
+Thanks to my supervisor Andrew Teschendorff for reviewing and commenting on the package and providing the code.
