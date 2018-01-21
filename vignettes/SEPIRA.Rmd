@@ -21,7 +21,7 @@ vignette: >
 To infer the network, we use the large [GTEx](https://www.gtexportal.org/home/) RNA-seq data set encompassing 8555 samples from about 30 tissue types. With this inferred network, we can then estimate transcription factor activity in samples from other data sets. Due to the large size of the GTEx data set we did not include it in our package. However, in order to gain an appreciation for the SEPIRA algorithm we show the results obtained by applying it to this full dataset. Then we validate it using an RNA-seq data set from Protein Atlas and a DNA methylation data set from the Stem-cell matrix compendium-2 (SCM2).
 
 ### How to use
-```{r include=FALSE}
+```{r echo=FALSE}
 knitr::opts_chunk$set(fig.pos="h", out.extra='', fig.align="center")
 library(SEPIRA)
 data("GeneExp")
