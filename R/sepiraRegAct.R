@@ -6,7 +6,7 @@
 #' @param type A character, "mRNA" for gene expression data; "DNAm" for DNA methylation data.
 #' @param regnet The regulatory network inferred from \code{sepiraInfNet} function.
 #' @param norm The method used to normalize your input data set, "c" for "centering"; "z" for "z-score normalization".
-#' @param ncores The number of cores to use. See \code{\link[parallel]{mclapply}}.
+#' @param ncores The number of cores to use. See \code{mclapply}.
 #'
 #' @return A matrix of TF activity score with rows referring to TFs, columns to samples.
 #'
