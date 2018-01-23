@@ -49,7 +49,7 @@ LimmaFn <- function(pheno, data) {
   cont.m <- matrix(0, nrow = ncol(design.sample), ncol = ncomp)
   tmp.v <- vector()
   c <- 1
-  for (i1 in 1:(ntypes - 1)) {
+  for (i1 in seq_len(ntypes - 1)) {
     for (i2 in (i1 + 1):ntypes) {
       cont.m[i1, c] <- -1
       cont.m[i2, c] <- 1
@@ -68,7 +68,7 @@ LimmaFn <- function(pheno, data) {
 
   ### build ranked list of DEGs for each comparison
   top.lm <- list()
-  for (c in 1:ncol(cont.m)) {
+  for (c in seq_len(ncol(cont.m))) {
     top.lm[[c]] <- topTable(bay.o, coef = c, adjust.method = "fdr", number = nrow(data))
   }
 
