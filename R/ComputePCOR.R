@@ -21,15 +21,15 @@
 #' @importFrom stats cor
 
 ComputePCOR <- function(idx, mapTG.idx, mapTF.idx, selbinNET.m, exp) {
-  g <- idx
-  reg.idx <- which(selbinNET.m[g, ] == 1)
-  if(length(reg.idx) >= 2){
-    tmp.idx <- c(mapTG.idx[g], mapTF.idx[reg.idx])
-    cor.m <- cor(t(exp[tmp.idx, ]))
-    pcor.m <- cor2pcor(cor.m)
-  }
-  else {
-    pcor.m <- NULL
-  }
-  return(pcor.m)
+    g <- idx
+    reg.idx <- which(selbinNET.m[g, ] == 1)
+    if(length(reg.idx) >= 2){
+      tmp.idx <- c(mapTG.idx[g], mapTF.idx[reg.idx])
+      cor.m <- cor(t(exp[tmp.idx, ]))
+      pcor.m <- cor2pcor(cor.m)
+    }
+    else {
+      pcor.m <- NULL
+    }
+    return(pcor.m)
 }
