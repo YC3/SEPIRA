@@ -9,7 +9,7 @@ Author: Yuting Chen [aut, cre],
 Maintainer: Yuting Chen <cytwarmmay@hotmail.com>
 License: GPL-3
 biocViews: regulatory netowrk, TF activity,Software
-Depends: R (>= 3.4.0)
+Depends: R (>= 3.5.0)
 Encoding: UTF-8
 Imports: limma (>= 3.32.5), corpcor (>= 1.6.9), parallel (>= 3.3.1)
 RoxygenNote: 6.0.1
