@@ -13,7 +13,7 @@
 #' @param degth A vector of length three, thresholds of adjusted p-value to call significant TFs in 1) comparison between \code{toi} and all other tissue types; 2) & 3) comparison between \code{toi} and blood/spleen in \code{cft}.
 #' @param lfcth vector of length three, thresholds of log2(fold-change) to call significant TFs in 1) comparison between \code{toi} and all other tissue types; 2) & 3) comparison between \code{toi} and blood/spleen in \code{cft}.
 #' @param minNtgts An integer used to filter out TFs with few targets. Only TFs with more than `minNtgts` target genes can be kept in the network.
-#' @param ncores The number of cores to use when computing partial correlation. See \code{\link[parallel]{mclapply}}.
+#' @param ncores The number of cores to use when computing partial correlation. See \code{mclapply}.
 #'
 #' @return The output is a list with three entries:
 #'
