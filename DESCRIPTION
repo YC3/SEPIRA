@@ -8,7 +8,7 @@ Author: Yuting Chen [aut, cre],
   Andrew Teschendorff [aut]
 Maintainer: Yuting Chen <cytwarmmay@hotmail.com>
 License: GPL-3
-biocViews: Regulatory netowrk, TF activity,Software
+biocViews: RegulatoryNetowrk, TFactivity,Software
 Depends: R (>= 3.5.0)
 Encoding: UTF-8
 Imports: limma (>= 3.32.5), corpcor (>= 1.6.9), parallel (>= 3.3.1)
