@@ -8,7 +8,7 @@ Author: Yuting Chen [aut, cre],
   Andrew Teschendorff [aut]
 Maintainer: Yuting Chen <cytwarmmay@hotmail.com>
 License: GPL-3
-biocViews: RegulatoryNetowrk, TFactivity, GeneExpression, Transcription, GeneRegulation, GeneTarget,
+biocViews: GeneExpression, Transcription, GeneRegulation, GeneTarget,
       NetworkInference, Network, Software
 Depends: R (>= 3.5.0)
 Encoding: UTF-8
