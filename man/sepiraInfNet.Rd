@@ -31,7 +31,7 @@ sepiraInfNet(data, tissue, toi, cft = NULL, TFs, sdth = 0.25,
 
 \item{minNtgts}{An integer used to filter out TFs with few targets. Only TFs with more than `minNtgts` target genes can be kept in the network.}
 
-\item{ncores}{The number of cores to use when computing partial correlation. See \code{\link[parallel]{mclapply}}.}
+\item{ncores}{The number of cores to use when computing partial correlation. See \code{mclapply}.}
 }
 \value{
 The output is a list with three entries:
