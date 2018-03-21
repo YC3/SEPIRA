@@ -68,12 +68,10 @@ LimmaFn <- function(pheno, data) {
 
   ### build ranked list of DEGs for each comparison
   top.lm <- list()
-  for (c in 1:ncol(cont.m)) {
-    top.lm[[c]] <- topTable(bay.o, coef = c, adjust.method = "fdr", number = nrow(data))
-  }
+  
+  top.lm <- lapply(seq_len(ncol(cont.m)), function(c){
+    topTable(bay.o, coef = c, adjust.method = "fdr", number = nrow(data))
+  })
 
   return(list(top = top.lm, cont = cont.m))
 }
-
-
-
