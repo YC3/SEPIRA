@@ -2,7 +2,7 @@
 #'
 #' @description \code{ComputePCOR} computes partial correlation between transcription regulators and their targets.
 #'
-#' @param idx Numeric, the index of target genes in the row of a binarized network \code{selbinNET.m}.
+#' @param idx An integer, the index of target genes in the row of a binarized network \code{selbinNET.m}.
 #' @param mapTG.idx A vector of indexes output from \code{match} function when mapping the target genes in the network to rows of the original expression data matrix.
 #' @param mapTF.idx A vector of indexes output from \code{match} function when mapping the transcription factors (TFs) in the network to rows of the original expression data matrix.
 #' @param selbinNET.m Binarized network with rows referring to TF target genes, and columns to TFs (the regulators). 0s means no regulation between TF-gene, while 1s means significant regulation (either positive or negative).

@@ -3,7 +3,7 @@
 #' @description \code{InferTFact} is an auxiliary function for function \code{sepiraRegAct}.
 #'
 #' @param exp A numeric vector of gene expression levels for all TF target genes in a sample.
-#' @param regnet The network estimated by function \code{sepiraInfNet}, with +1 referring to positive regulation, -1 negative regulation, and 0 no regulation.
+#' @param regnet A matrix, which represents the network estimated by function \code{sepiraInfNet}, with +1 referring to positive regulation, -1 negative regulation, and 0 no regulation.
 #'
 #' @return A vector storing the activity scores of all TFs in a specific sample.
 #'
