@@ -3,7 +3,7 @@
 #' @description \code{LimmaFn} uses functions in \code{limma} package to easily compute the moderated t-statistics and p-values from differential gene expression/methylation tests comparing between different phenotypes even when sample size is small.
 #'
 #' @param pheno A vector of sample phenotypes. Sample phenotype in a scientific research could be treatment/control, normal/cancer or smoker/non-smoker. Different phenotypes could each be encoded as 0/1 when inputting to \code{LimmaFn}, for example, Normal-0; Cancer-1.
-#' @param data Normalized gene expression or DNA methylation dataset, should be a numeric matrix, with rows referring to genes and columns to samples. In this matrix you could use any type of gene IDs, like Entrez ID, Ensembl ID, HUGO gene symbol... But make sure to use the same gene annotation through out your analysis.
+#' @param data A matrix, which represents the normalized gene expression or DNA methylation dataset, should be a numeric matrix, with rows referring to genes and columns to samples. In this matrix you could use any type of gene IDs, like Entrez ID, Ensembl ID, HUGO gene symbol... But make sure to use the same gene annotation through out your analysis.
 #'
 #' @return A table with rows for all genes (ranked by significance) and columns of log2 fold-change, average expression, moderated t-statistic, p-value, adjusted p-value (Benjamini–Hochberg procedure). The table is the output of \code{\link[limma]{topTable}} function.
 #'
