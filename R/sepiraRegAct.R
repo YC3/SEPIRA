@@ -2,11 +2,11 @@
 #'
 #' @description \code{sepiraRegAct} calculates TF activity scores in user input data set. It could be a gene expression dataset or a DNA methylation dataset
 #'
-#' @param data A gene expression or DNA methylation data matrix, with rows referring to genes and columns to samples.
+#' @param data A matrix, which represents a gene expression or DNA methylation data matrix, with rows referring to genes and columns to samples.
 #' @param type A character, "mRNA" for gene expression data; "DNAm" for DNA methylation data.
-#' @param regnet The regulatory network inferred from \code{sepiraInfNet} function.
-#' @param norm The method used to normalize your input data set, "c" for "centering"; "z" for "z-score normalization".
-#' @param ncores The number of cores to use. See \code{\link[parallel]{mclapply}}.
+#' @param regnet A matrix, which represents the regulatory network inferred from \code{sepiraInfNet} function.
+#' @param norm A character, indicating the method used to normalize your input data set, "c" for "centering"; "z" for "z-score normalization".
+#' @param ncores A numeric, the number of cores to use. See \code{\link[parallel]{mclapply}}.
 #'
 #' @return A matrix of TF activity score with rows referring to TFs, columns to samples.
 #'
