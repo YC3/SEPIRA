@@ -48,15 +48,15 @@ LimmaFn <- function(pheno, data) {
   ncomp <- 0.5 * ntypes * (ntypes - 1)
   cont.m <- matrix(0, nrow = ncol(design.sample), ncol = ncomp)
   tmp.v <- vector()
-  c <- 1
-  for (i1 in 1:(ntypes - 1)) {
-    for (i2 in (i1 + 1):ntypes) {
-      cont.m[i1, c] <- -1
-      cont.m[i2, c] <- 1
-      tmp.v[c] <- paste(sampletypes.v[i2], "--", sampletypes.v[i1], sep = "")
-      c <- c + 1
-    }
-  }
+  
+  i1 <- rep(seq_len(ntypes-1), times=rev(seq_len(ntypes-1)))
+  i2 <- unlist(lapply(1:ntypes, function(x){tail(seq.int(x, ntypes),-1)}))
+               
+  c <- seq_len(ncol(design.sample))
+  cont.m[i1, c] <- -1
+  cont.m[i2, c] <- 1
+  tmp.v[c] <- paste(sampletypes.v[i2], "--", sampletypes.v[i1], sep = "")
+    
   rownames(cont.m) <- sampletypes.v # sampletype.v determined separately
   colnames(cont.m) <- tmp.v
 
