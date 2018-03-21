@@ -16,7 +16,7 @@ sepiraRegAct(data, type = c("mRNA", "DNAm"), regnet, norm = c("c", "z"),
 
 \item{norm}{The method used to normalize your input data set, "c" for "centering"; "z" for "z-score normalization".}
 
-\item{ncores}{The number of cores to use. See \code{\link[parallel]{mclapply}}.}
+\item{ncores}{The number of cores to use. See \code{mclapply}.}
 }
 \value{
 A matrix of TF activity score with rows referring to TFs, columns to samples.

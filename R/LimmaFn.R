@@ -34,14 +34,14 @@
 
 LimmaFn <- function(pheno, data) {
 
-  ### construct model matrix
-  sampletype.f <- as.factor(pheno)
-  design.sample <- model.matrix(~ 0 + sampletype.f)
-  colnames(design.sample) <- levels(sampletype.f)
-  sampletypes.v <- levels(sampletype.f)
+    ### construct model matrix
+    sampletype.f <- as.factor(pheno)
+    design.sample <- model.matrix(~ 0 + sampletype.f)
+    colnames(design.sample) <- levels(sampletype.f)
+    sampletypes.v <- levels(sampletype.f)
 
-  ### do linear model fit
-  lmf.o <- lmFit(data, design.sample)
+    ### do linear model fit
+    lmf.o <- lmFit(data, design.sample)
 
   ### construct contrast matrix
   ntypes <- length(levels(sampletype.f))
@@ -60,11 +60,11 @@ LimmaFn <- function(pheno, data) {
   rownames(cont.m) <- sampletypes.v # sampletype.v determined separately
   colnames(cont.m) <- tmp.v
 
-  ### do linear model to contrasts
-  lmf2.o <- contrasts.fit(lmf.o, cont.m)
+    ### do linear model to contrasts
+    lmf2.o <- contrasts.fit(lmf.o, cont.m)
 
-  ### empirical Bayesian estimation of differentially expressed genes (DEGs)
-  bay.o <- eBayes(lmf2.o)
+    ### empirical Bayesian estimation of differentially expressed genes (DEGs)
+    bay.o <- eBayes(lmf2.o)
 
   ### build ranked list of DEGs for each comparison
   top.lm <- list()
@@ -73,5 +73,5 @@ LimmaFn <- function(pheno, data) {
     topTable(bay.o, coef = c, adjust.method = "fdr", number = nrow(data))
   })
 
-  return(list(top = top.lm, cont = cont.m))
+    return(list(top = top.lm, cont = cont.m))
 }
