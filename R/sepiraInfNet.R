@@ -97,7 +97,7 @@ sepiraInfNet <- function(data, tissue, toi, cft = NULL, TFs, sdth = 0.25, sigth 
     zNET.v <- as.vector(abs(zNET.m));
     tmp.s <- sort(zNET.v,decreasing=TRUE,index.return=TRUE);
     out.v <- rep(0,length(zNET.v));
-    out.v[tmp.s$ix[1:topE]] <- 1;
+    out.v[tmp.s$ix[seq_len(topE)]] <- 1;
     binNET.m <- matrix(out.v,nrow=nrow(zNET.m));
     rownames(binNET.m) <- rownames(zNET.m);
     colnames(binNET.m) <- colnames(zNET.m);
@@ -118,14 +118,14 @@ sepiraInfNet <- function(data, tissue, toi, cft = NULL, TFs, sdth = 0.25, sigth 
   mapTG.idx <- match(rownames(selbinNET.m), rownames(exp.m))
   mapTF.idx <- match(colnames(selbinNET.m), rownames(exp.m))
 
-  idx.l <- as.list(1:nrow(selbinNET.m))
+  idx.l <- as.list(seq_len(nrow(selbinNET.m)))
   #print("Computing Partial Correlations")
   pcor.l <- mclapply(idx.l, ComputePCOR, mapTG.idx, mapTF.idx, selbinNET.m, exp.m, mc.cores = ncores)
 
   pcorNET.m <- matrix(0, nrow = nrow(selbinNET.m), ncol = ncol(selbinNET.m))
   rownames(pcorNET.m) <- rownames(selbinNET.m)
   colnames(pcorNET.m) <- colnames(selbinNET.m)
-  for (g in 1:length(pcor.l)) {
+  for (g in seq_len(length(pcor.l))) {
     reg.idx <- which(selbinNET.m[g,] == 1)
     if (length(reg.idx) >= 2) {
       pcorNET.m[g, reg.idx] <- pcor.l[[g]][1, -1]
