@@ -143,10 +143,18 @@ sepiraInfNet <- function(data, tissue, toi, cft = NULL, TFs, sdth = 0.25, sigth 
   colnames(sumnetTF.m) <- colnames(gtexNET.m)
   sumnetTF.m[1, ] <- apply(abs(gtexNET.m), 2, sum)
 
-  for (tf in 1:ncol(gtexNET.m)) {
-    sumnetTF.m[2, tf] <- length(which(gtexNET.m[, tf] == 1))
-    sumnetTF.m[3, tf] <- length(which(gtexNET.m[, tf] == -1))
-  }
+  gtexNET.m2 <- gtexNET.m
+  gtexNET.m3 <- gtexNET.m
+
+  gtexNet.m2[gteNET.m2 != 1] == 0
+  gtexNet.m2[gteNET.m2 == 1] == 1
+
+  gtexNet.m3[gteNET.m3 != -1] == 0
+  gtexNet.m3[gteNET.m3 == -1] == 1
+
+  sumnetTF.m[2,] <- rowSums(gtexNET.m2)
+  sumnetTF.m[3,] <- rowSums(gtexNET.m3)
+  
   pv.v <- pbinom(apply(sumnetTF.m[2:3, ], 2, max), size=sumnetTF.m[1, ], prob = 0.5, lower.tail = FALSE)
   sumnetTF.m[4, ] <- pv.v
 
@@ -174,13 +182,12 @@ sepiraInfNet <- function(data, tissue, toi, cft = NULL, TFs, sdth = 0.25, sigth 
   }
 
   ### now find tissue-specific TFs
-  toiTF.lv <- list()
-  for (i in 1:length(topTOI.lm)) {
+  toiTF.lv <- lapply(seq_along(topTOI.lm), function(i) {
     statTF.m <- topTOI.lm[[i]][match(colnames(gtexNETf.m), rownames(topTOI.lm[[i]])), c(1, 3, 4, 5)]
     toiTF.idx <- intersect(which(statTF.m[, 4] < degth[i]), which(statTF.m[, 1] > lfcth[i]))
-    toiTF.lv[[i]] <- rownames(statTF.m[toiTF.idx, ])
+    return(rownames(statTF.m[toiTF.idx, ]))
   }
-
+    
   toiTF.v <- toiTF.lv[[1]]
   if (length(toiTF.lv) > 1) {
     for (i in 2:length(toiTF.lv)) {
@@ -198,11 +205,15 @@ sepiraInfNet <- function(data, tissue, toi, cft = NULL, TFs, sdth = 0.25, sigth 
   rownames(distNet.m) <- colnames(netTOI.m)
   colnames(distNet.m) <- c("nTGTS", "Act", "Rep")
   distNet.m[, 1] <- apply(abs(netTOI.m), 2, sum)
-  for (c in 1:ncol(netTOI.m)) {
-    act.idx <- which(netTOI.m[, c] == 1)
-    inact.idx <- which(netTOI.m[, c] == -1)
-    distNet.m[c, 2:3] <- c(length(act.idx), length(inact.idx))
-  }
+  
+  act.idx <- matrix(nrow = ncol(netTOI.m), ncol = 3)
+  act.idx[netTOI.m != 1] <- 0
+
+  inact.idx <- matrix(nrow = ncol(netTOI.m), ncol = 3)
+  inact.idx[netTOI.m != -1] <- 0
+  inact.idx[netTOI.m == -1] <- 1
+
+  distNet.m[, 2:3] <- rbind(colSums(act.idx), colSums(inact.idx))
 
   return(list(netTOI = netTOI.m, sumnet = distNet.m, top = topTOI.lm))
 }  ### end of function sepiraInfNet
