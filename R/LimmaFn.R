@@ -3,7 +3,7 @@
 #' @description \code{LimmaFn} uses functions in \code{limma} package to easily compute the moderated t-statistics and p-values from differential gene expression/methylation tests comparing between different phenotypes even when sample size is small.
 #'
 #' @param pheno A vector of sample phenotypes. Sample phenotype in a scientific research could be treatment/control, normal/cancer or smoker/non-smoker. Different phenotypes could each be encoded as 0/1 when inputting to \code{LimmaFn}, for example, Normal-0; Cancer-1.
-#' @param data Normalized gene expression or DNA methylation dataset, should be a numeric matrix, with rows referring to genes and columns to samples. In this matrix you could use any type of gene IDs, like Entrez ID, Ensembl ID, HUGO gene symbol... But make sure to use the same gene annotation through out your analysis.
+#' @param data A matrix, which represents the normalized gene expression or DNA methylation dataset, should be a numeric matrix, with rows referring to genes and columns to samples. In this matrix you could use any type of gene IDs, like Entrez ID, Ensembl ID, HUGO gene symbol... But make sure to use the same gene annotation through out your analysis.
 #'
 #' @return A table with rows for all genes (ranked by significance) and columns of log2 fold-change, average expression, moderated t-statistic, p-value, adjusted p-value (Benjamini–Hochberg procedure). The table is the output of \code{\link[limma]{topTable}} function.
 #'
@@ -43,22 +43,22 @@ LimmaFn <- function(pheno, data) {
     ### do linear model fit
     lmf.o <- lmFit(data, design.sample)
 
-    ### construct contrast matrix
-    ntypes <- length(levels(sampletype.f))
-    ncomp <- 0.5 * ntypes * (ntypes - 1)
-    cont.m <- matrix(0, nrow = ncol(design.sample), ncol = ncomp)
-    tmp.v <- vector()
-    c <- 1
-    for (i1 in seq_len(ntypes - 1)) {
-      for (i2 in (i1 + 1):ntypes) {
-        cont.m[i1, c] <- -1
-        cont.m[i2, c] <- 1
-        tmp.v[c] <- paste(sampletypes.v[i2], "--", sampletypes.v[i1], sep = "")
-        c <- c + 1
-      }
-    }
-    rownames(cont.m) <- sampletypes.v # sampletype.v determined separately
-    colnames(cont.m) <- tmp.v
+  ### construct contrast matrix
+  ntypes <- length(levels(sampletype.f))
+  ncomp <- 0.5 * ntypes * (ntypes - 1)
+  cont.m <- matrix(0, nrow = ncol(design.sample), ncol = ncomp)
+  tmp.v <- vector()
+  
+  i1 <- rep(seq_len(ntypes-1), times=rev(seq_len(ntypes-1)))
+  i2 <- unlist(lapply(1:ntypes, function(x){tail(seq.int(x, ntypes),-1)}))
+               
+  c <- seq_len(ncol(design.sample))
+  cont.m[i1, c] <- -1
+  cont.m[i2, c] <- 1
+  tmp.v[c] <- paste(sampletypes.v[i2], "--", sampletypes.v[i1], sep = "")
+    
+  rownames(cont.m) <- sampletypes.v # sampletype.v determined separately
+  colnames(cont.m) <- tmp.v
 
     ### do linear model to contrasts
     lmf2.o <- contrasts.fit(lmf.o, cont.m)
@@ -66,14 +66,12 @@ LimmaFn <- function(pheno, data) {
     ### empirical Bayesian estimation of differentially expressed genes (DEGs)
     bay.o <- eBayes(lmf2.o)
 
-    ### build ranked list of DEGs for each comparison
-    top.lm <- list()
-    for (c in seq_len(ncol(cont.m))) {
-      top.lm[[c]] <- topTable(bay.o, coef = c, adjust.method = "fdr", number = nrow(data))
-    }
+  ### build ranked list of DEGs for each comparison
+  top.lm <- list()
+  
+  top.lm <- lapply(seq_len(ncol(cont.m)), function(c){
+    topTable(bay.o, coef = c, adjust.method = "fdr", number = nrow(data))
+  })
 
     return(list(top = top.lm, cont = cont.m))
 }
-
-
-
