@@ -12,11 +12,11 @@ sepiraRegAct(data, type = c("mRNA", "DNAm"), regnet, norm = c("c", "z"),
 
 \item{type}{A character, "mRNA" for gene expression data; "DNAm" for DNA methylation data.}
 
-\item{regnet}{The regulatory network inferred from \code{sepiraInfNet} function.}
+\item{regnet}{A matrix, the regulatory network inferred from \code{sepiraInfNet} function.}
 
-\item{norm}{The method used to normalize your input data set, "c" for "centering"; "z" for "z-score normalization".}
+\item{norm}{A character indicating the method used to normalize your input data set, "c" for "centering"; "z" for "z-score normalization".}
 
-\item{ncores}{The number of cores to use. See \code{mclapply}.}
+\item{ncores}{A numeric, the number of cores to use. See \code{mclapply}.}
 }
 \value{
 A matrix of TF activity score with rows referring to TFs, columns to samples.

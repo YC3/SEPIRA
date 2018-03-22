@@ -2,11 +2,11 @@
 #'
 #' @description \code{sepiraRegAct} calculates TF activity scores in user input data set. It could be a gene expression dataset or a DNA methylation dataset
 #'
-#' @param data A matrix, which represents a gene expression or DNA methylation data matrix, with rows referring to genes and columns to samples.
+#' @param data A gene expression or DNA methylation data matrix, with rows referring to genes and columns to samples.
 #' @param type A character, "mRNA" for gene expression data; "DNAm" for DNA methylation data.
-#' @param regnet A matrix, which represents the regulatory network inferred from \code{sepiraInfNet} function.
-#' @param norm A character, indicating the method used to normalize your input data set, "c" for "centering"; "z" for "z-score normalization".
-#' @param ncores A numeric, the number of cores to use. See \code{\link[parallel]{mclapply}}.
+#' @param regnet A matrix, the regulatory network inferred from \code{sepiraInfNet} function.
+#' @param norm A character indicating the method used to normalize your input data set, "c" for "centering"; "z" for "z-score normalization".
+#' @param ncores A numeric, the number of cores to use. See \code{mclapply}.
 #'
 #' @return A matrix of TF activity score with rows referring to TFs, columns to samples.
 #'
@@ -63,7 +63,7 @@ sepiraRegAct <- function(data, type = c("mRNA", "DNAm"), regnet, norm = c("c", "
     if (norm == "z") {
       ndata <- (data - rowMeans(data)) / apply(data, 1, sd)
     }
-    idx.l <- as.list(1:ncol(data))
+    idx.l <- as.list(seq_len(ncol(data)))
     prl.o <- mclapply(idx.l, InferTFactPRL, ndata, regnet, mc.cores = ncores)
     actTF <- matrix(unlist(prl.o), nrow = ncol(regnet), ncol=  length(prl.o), byrow = FALSE)
     rownames(actTF) <- colnames(regnet)

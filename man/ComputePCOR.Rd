@@ -13,7 +13,7 @@ ComputePCOR(idx, mapTG.idx, mapTF.idx, selbinNET.m, exp)
 
 \item{mapTF.idx}{A vector of indexes output from \code{match} function when mapping the transcription factors (TFs) in the network to rows of the original expression data matrix.}
 
-\item{selbinNET.m}{Binarized network with rows referring to TF target genes, and columns to TFs (the regulators). 0s means no regulation between TF-gene, while 1s means significant regulation (either positive or negative).}
+\item{selbinNET.m}{A matrix, the binarized network with rows referring to TF target genes, and columns to TFs (the regulators). 0s means no regulation between TF-gene, while 1s means significant regulation (either positive or negative).}
 
 \item{exp}{A matrix, the original gene expression data matrix across different tissue types with rows referring to genes, columns to samples.}
 }

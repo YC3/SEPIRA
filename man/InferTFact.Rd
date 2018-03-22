@@ -9,7 +9,7 @@ InferTFact(exp, regnet)
 \arguments{
 \item{exp}{A numeric vector of gene expression levels for all TF target genes in a sample.}
 
-\item{regnet}{The network estimated by function \code{sepiraInfNet}, with +1 referring to positive regulation, -1 negative regulation, and 0 no regulation.}
+\item{regnet}{A matrix, the network estimated by function \code{sepiraInfNet}, with +1 referring to positive regulation, -1 negative regulation, and 0 no regulation.}
 }
 \value{
 A vector storing the activity scores of all TFs in a specific sample.

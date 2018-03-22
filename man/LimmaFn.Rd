@@ -9,7 +9,7 @@ LimmaFn(pheno, data)
 \arguments{
 \item{pheno}{A vector of sample phenotypes. Sample phenotype in a scientific research could be treatment/control, normal/cancer or smoker/non-smoker. Different phenotypes could each be encoded as 0/1 when inputting to \code{LimmaFn}, for example, Normal-0; Cancer-1.}
 
-\item{data}{Normalized gene expression or DNA methylation dataset, should be a numeric matrix, with rows referring to genes and columns to samples. In this matrix you could use any type of gene IDs, like Entrez ID, Ensembl ID, HUGO gene symbol... But make sure to use the same gene annotation through out your analysis.}
+\item{data}{A matrix, the normalized gene expression or DNA methylation dataset, should be a numeric matrix, with rows referring to genes and columns to samples. In this matrix you could use any type of gene IDs, like Entrez ID, Ensembl ID, HUGO gene symbol... But make sure to use the same gene annotation through out your analysis.}
 }
 \value{
 A table with rows for all genes (ranked by significance) and columns of log2 fold-change, average expression, moderated t-statistic, p-value, adjusted p-value (Benjamini–Hochberg procedure). The table is the output of \code{\link[limma]{topTable}} function.

@@ -3,7 +3,7 @@
 #' @description \code{InferTFact} is an auxiliary function for function \code{sepiraRegAct}.
 #'
 #' @param exp A numeric vector of gene expression levels for all TF target genes in a sample.
-#' @param regnet A matrix, which represents the network estimated by function \code{sepiraInfNet}, with +1 referring to positive regulation, -1 negative regulation, and 0 no regulation.
+#' @param regnet A matrix, the network estimated by function \code{sepiraInfNet}, with +1 referring to positive regulation, -1 negative regulation, and 0 no regulation.
 #'
 #' @return A vector storing the activity scores of all TFs in a specific sample.
 #'
@@ -20,13 +20,13 @@
 #' TFact.v <- SEPIRA:::InferTFact(exp.v, regnet.m)
 
 InferTFact <- function(exp, regnet) {
-    act.v <- apply(regnet, 2, function(tmp.v) {
-        lm.o <- lm(exp ~ tmp.v)
-        act <- summary(lm.o)$coeff[2, 3]
-        return(act)
-    })
+  act.v <- apply(regnet, 2, function(tmp.v) {
+    lm.o <- lm(exp ~ tmp.v)
+    act <- summary(lm.o)$coeff[2, 3]
+    return(act)
+  })
 
-    return(act.v)
+  return(act.v)
 }
 
 #' @title Estimate TF activity score in different samples
@@ -52,12 +52,12 @@ InferTFact <- function(exp, regnet) {
 #' TFact.v <- SEPIRA:::InferTFactPRL(1, tmp.m, regnet.m)
 
 InferTFactPRL <- function(idx, tmp, regnet) {
-    exp.v <- tmp[, idx]
-    act.v <- apply(regnet, 2, function(tmp.v) {
-      lm.o <- lm(exp.v ~ tmp.v)
-      act <- summary(lm.o)$coeff[2, 3]
-      return(act)
-    })
+  exp.v <- tmp[, idx]
+  act.v <- apply(regnet, 2, function(tmp.v) {
+    lm.o <- lm(exp.v ~ tmp.v)
+    act <- summary(lm.o)$coeff[2, 3]
+    return(act)
+  })
 
-    return(act.v)
+  return(act.v)
 }
