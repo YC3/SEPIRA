@@ -143,7 +143,7 @@ sepiraInfNet <- function(data, tissue, toi, cft = NULL, TFs, sdth = 0.25, sigth 
   arr.idx2 <- arr.idx[order(arr.idx[, 1]), ]
   pcorNET.m[g1, ][arr.idx2] <- unlist(lapply(pcor.l[g1], "[", 1, -1))
   g2 <- g[which(reg.idx.v == 1)]
-  arr.idx <- which(selbinNET.m[g2, ] == 1, arr.ind = T)
+  arr.idx <- which(selbinNET.m[g2, ] == 1, arr.ind = TRUE)
   arr.idx2 <- arr.idx[order(arr.idx[, 1]), ]
   pcorNET.m[g2, ][arr.idx2] <- selcorNET.m[g2, ][arr.idx2]
   #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
