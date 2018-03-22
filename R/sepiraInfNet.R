@@ -227,6 +227,7 @@ sepiraInfNet <- function(data, tissue, toi, cft = NULL, TFs, sdth = 0.25, sigth 
   toiTF.lv <- lapply(seq_along(topTOI.lm), function(i) {
     statTF.m <- topTOI.lm[[i]][match(colnames(gtexNETf.m), rownames(topTOI.lm[[i]])), c(1, 3, 4, 5)]
     toiTF.idx <- intersect(which(statTF.m[, 4] < degth[i]), which(statTF.m[, 1] > lfcth[i]))
+
     rownames(statTF.m[toiTF.idx, ])
   })
   #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
