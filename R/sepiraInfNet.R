@@ -2,9 +2,9 @@
 #'
 #' @description \code{sepiraInfNet()} is one of the two main functions in package \code{SEPIRA}. Using it you can estimate tissue-specific regulatory networks in any tissue type of interest.
 #'
-#' @param data A matrix which represents the normalized gene expression data matrix, with rows referring to unique genes and columns to samples from different tissue types.
-#' @param tissue A vector, indicating the tissue types of samples. It should have the same order as the columns of the matrix.
-#' @param toi A character indicating the tissue type of interest, a character telling the function the tissue type for which a user wants to estimate the network.
+#' @param data A matrix, the normalized gene expression data matrix, with rows referring to unique genes and columns to samples from different tissue types.
+#' @param tissue A phenotype vector, indicating the tissue types of samples. It should have the same order as the columns of the matrix.
+#' @param toi A character, the tissue type of interest, a character telling the function the tissue type for which a user wants to estimate the network.
 #' @param cft A vector of tissue types to be used to adjust for confounding by immune or stromal cells infiltration in \code{toi}. It can be blood and/or spleen, which we found using \code{ESTIMATE} package that they contain extremely high proportion of immune and stromal cells.
 #' @param TFs A vector of TFs. Note that one should use the same annotation in different data sets throughout the analysis.
 #' @param sdth A numeric, the standard deviation threshold used to remove genes with little or zero standard deviation of its expression levels.
@@ -13,7 +13,7 @@
 #' @param degth A vector of length three, thresholds of adjusted p-value to call significant TFs in 1) comparison between \code{toi} and all other tissue types; 2) & 3) comparison between \code{toi} and blood/spleen in \code{cft}.
 #' @param lfcth A vector of length three, thresholds of log2(fold-change) to call significant TFs in 1) comparison between \code{toi} and all other tissue types; 2) & 3) comparison between \code{toi} and blood/spleen in \code{cft}.
 #' @param minNtgts An integer used to filter out TFs with few targets. Only TFs with more than `minNtgts` target genes can be kept in the network.
-#' @param ncores A numeric, the number of cores to use when computing partial correlation. See \code{\link[parallel]{mclapply}}.
+#' @param ncores An integer, the number of cores to use when computing partial correlation. See \code{mclapply}.
 #'
 #' @return A list with three entries:
 #'
@@ -67,7 +67,7 @@ sepiraInfNet <- function(data, tissue, toi, cft = NULL, TFs, sdth = 0.25, sigth 
 
   tt.v <- levels(factor(tissue))
   if (length(intersect(toi,tt.v)) == 0) stop("Your tissue of interest is not in 'tissue', or you have mispelled toi")
-  if (FALSE %in% (cft %in% tt.v)) stop(paste0("'",cft[!cft %in% tt.v],"'"," is not in 'tissue', or you have mispelled it."))
+  if (FALSE %in% (cft %in% tt.v)) stop(paste0("'", cft[!cft %in% tt.v], "'", " is not in 'tissue', or you have mispelled it."))
 
   ### remove genes with no or little variance
   sd.v <- apply(data, 1, sd)
@@ -91,16 +91,16 @@ sepiraInfNet <- function(data, tissue, toi, cft = NULL, TFs, sdth = 0.25, sigth 
   binNET.m <- pvNET.m
   binNET.m[pvNET.m < sigth] <- 1
   binNET.m[pvNET.m >= sigth] <- 0
-  if(sum(binNET.m) > 0.01*prod(dim(pvNET.m))){### if more than 1% cap at 1%
-    topE <- floor(0.01*prod(dim(pvNET.m)));
+  if(sum(binNET.m) > 0.01 * prod(dim(pvNET.m))){### if more than 1% cap at 1%
+    topE <- floor(0.01 * prod(dim(pvNET.m)))
 
-    zNET.v <- as.vector(abs(zNET.m));
-    tmp.s <- sort(zNET.v,decreasing=TRUE,index.return=TRUE);
-    out.v <- rep(0,length(zNET.v));
-    out.v[tmp.s$ix[seq_len(topE)]] <- 1;
-    binNET.m <- matrix(out.v,nrow=nrow(zNET.m));
-    rownames(binNET.m) <- rownames(zNET.m);
-    colnames(binNET.m) <- colnames(zNET.m);
+    zNET.v <- as.vector(abs(zNET.m))
+    tmp.s <- sort(zNET.v, decreasing = TRUE, index.return = TRUE)
+    out.v <- rep(0, length(zNET.v))
+    out.v[tmp.s$ix[seq_len(topE)]] <- 1
+    binNET.m <- matrix(out.v,nrow = nrow(zNET.m))
+    rownames(binNET.m) <- rownames(zNET.m)
+    colnames(binNET.m) <- colnames(zNET.m)
    }
 
   ### number of targets per tf
@@ -125,15 +125,28 @@ sepiraInfNet <- function(data, tissue, toi, cft = NULL, TFs, sdth = 0.25, sigth 
   pcorNET.m <- matrix(0, nrow = nrow(selbinNET.m), ncol = ncol(selbinNET.m))
   rownames(pcorNET.m) <- rownames(selbinNET.m)
   colnames(pcorNET.m) <- colnames(selbinNET.m)
-  for (g in seq_len(length(pcor.l))) {
-    reg.idx <- which(selbinNET.m[g,] == 1)
-    if (length(reg.idx) >= 2) {
-      pcorNET.m[g, reg.idx] <- pcor.l[[g]][1, -1]
-    }
-    else if (length(reg.idx) == 1) {
-      pcorNET.m[g, reg.idx] <- selcorNET.m[g, reg.idx]
-    }
-  }
+
+  #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< YC
+  #for (g in seq_len(length(pcor.l))) {
+  #  reg.idx <- which(selbinNET.m[g,] == 1)
+  #  if (length(reg.idx) >= 2) {
+  #    pcorNET.m[g, reg.idx] <- pcor.l[[g]][1, -1]
+  #  }
+  #  else if (length(reg.idx) == 1) {
+  #    pcorNET.m[g, reg.idx] <- selcorNET.m[g, reg.idx]
+  #  }
+  #}
+  g <- seq_len(nrow(selbinNET.m))
+  reg.idx.v <-rowSums(selbinNET.m)
+  g1 <- g[which(reg.idx.v >= 2)]
+  arr.idx <- which(selbinNET.m[g1, ] == 1, arr.ind = T)
+  arr.idx2 <- arr.idx[order(arr.idx[, 1]), ]
+  pcorNET.m[g1, ][arr.idx2] <- unlist(lapply(pcor.l[g1], "[", 1, -1))
+  g2 <- g[which(reg.idx.v == 1)]
+  arr.idx <- which(selbinNET.m[g2, ] == 1, arr.ind = T)
+  arr.idx2 <- arr.idx[order(arr.idx[, 1]), ]
+  pcorNET.m[g2, ][arr.idx2] <- selcorNET.m[g2, ][arr.idx2]
+  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   gtexNET.m <- sign(pcorNET.m)
   gtexNET.m[abs(pcorNET.m) < pcorth] <- 0
@@ -143,19 +156,25 @@ sepiraInfNet <- function(data, tissue, toi, cft = NULL, TFs, sdth = 0.25, sigth 
   colnames(sumnetTF.m) <- colnames(gtexNET.m)
   sumnetTF.m[1, ] <- apply(abs(gtexNET.m), 2, sum)
 
+  #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< dvantwisk + YC
+  #for (tf in 1:ncol(gtexNET.m)) {
+  #  sumnetTF.m[2, tf] <- length(which(gtexNET.m[, tf] == 1))
+  #  sumnetTF.m[3, tf] <- length(which(gtexNET.m[, tf] == -1))
+  #}
   gtexNET.m2 <- gtexNET.m
   gtexNET.m3 <- gtexNET.m
 
-  gtexNet.m2[gteNET.m2 != 1] == 0
-  gtexNet.m2[gteNET.m2 == 1] == 1
+  gtexNET.m2[gtexNET.m2 != 1] <- 0
+  gtexNET.m2[gtexNET.m2 == 1] <- 1
 
-  gtexNet.m3[gteNET.m3 != -1] == 0
-  gtexNet.m3[gteNET.m3 == -1] == 1
+  gtexNET.m3[gtexNET.m3 != -1] <- 0
+  gtexNET.m3[gtexNET.m3 == -1] <- 1
 
-  sumnetTF.m[2,] <- rowSums(gtexNET.m2)
-  sumnetTF.m[3,] <- rowSums(gtexNET.m3)
-  
-  pv.v <- pbinom(apply(sumnetTF.m[2:3, ], 2, max), size=sumnetTF.m[1, ], prob = 0.5, lower.tail = FALSE)
+  sumnetTF.m[2, ] <- colSums(gtexNET.m2)
+  sumnetTF.m[3, ] <- colSums(gtexNET.m3)
+  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  pv.v <- pbinom(apply(sumnetTF.m[2:3, ], 2, max), size = sumnetTF.m[1, ], prob = 0.5, lower.tail = FALSE)
   sumnetTF.m[4, ] <- pv.v
 
   gtexNETf.m <- gtexNET.m[, which(sumnetTF.m[1, ] >= minNtgts)]
@@ -168,32 +187,62 @@ sepiraInfNet <- function(data, tissue, toi, cft = NULL, TFs, sdth = 0.25, sigth 
   topTOI.lm[[1]] <- lim.o$top[[1]]
   ### now compare toi to other tissues (in order to avoid confounding by immune or stromal cell infiltrates)
   if (!is.null(cft)) {
-    ti <- 2;
-    for(t in cft){
-     sel.idx <- which(tissue %in% c(toi,t))
-     tmp.v <- tissue[sel.idx]
-     tmpPH.v <- rep(0,length(sel.idx))
-     tmpPH.v[which(tmp.v==toi)] <- 1
-     if(length(unique(tmp.v))<=1) stop(paste0("In comparison between ",toi," and ",t, ", all data are from ",unique(tmp.v),"."))
-     lim.o <- LimmaFn(tmpPH.v,exp.m[,sel.idx])
-     topTOI.lm[[ti]] <- lim.o$top[[1]]
-     ti <- ti+1
-    }
+
+    #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< YC
+    #ti <- 2;
+    #for(t in cft){
+    # sel.idx <- which(tissue %in% c(toi,t))
+    # tmp.v <- tissue[sel.idx]
+    # tmpPH.v <- rep(0,length(sel.idx))
+    # tmpPH.v[which(tmp.v==toi)] <- 1
+    # if(length(unique(tmp.v))<=1) stop(paste0("In comparison between ",toi," and ",t, ", all data are from ",unique(tmp.v),"."))
+    # lim.o <- LimmaFn(tmpPH.v,exp.m[,sel.idx])
+    # topTOI.lm[[ti]] <- lim.o$top[[1]]
+    # ti <- ti+1
+    #}
+    cft.l <- list(cft)
+    topTOI.lm2 <- lapply(cft.l, function(t){
+      sel.idx <- which(tissue %in% c(toi, t))
+      tmp.v <- tissue[sel.idx]
+      tmpPH.v <- rep(0, length(sel.idx))
+      tmpPH.v[which(tmp.v == toi)] <- 1
+      if(length(unique(tmp.v)) <= 1) stop(paste0("In comparison between ", toi, " and ", t, ", all data are from ", unique(tmp.v), "."))
+      lim.o <- LimmaFn(tmpPH.v, exp.m[, sel.idx])
+      lim.o$top[[1]]
+    })
+    topTOI.lm <- c(topTOI.lm, topTOI.lm2)
+    #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
   }
 
   ### now find tissue-specific TFs
+
+  #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< dvantwisk + YC
+  #toiTF.lv <- list()
+  #for (i in 1:length(topTOI.lm)) {
+  #  statTF.m <- topTOI.lm[[i]][match(colnames(gtexNETf.m), rownames(topTOI.lm[[i]])), c(1, 3, 4, 5)]
+  #  toiTF.idx <- intersect(which(statTF.m[, 4] < degth[i]), which(statTF.m[, 1] > lfcth[i]))
+  #  toiTF.lv[[i]] <- rownames(statTF.m[toiTF.idx, ])
+  #}
   toiTF.lv <- lapply(seq_along(topTOI.lm), function(i) {
     statTF.m <- topTOI.lm[[i]][match(colnames(gtexNETf.m), rownames(topTOI.lm[[i]])), c(1, 3, 4, 5)]
     toiTF.idx <- intersect(which(statTF.m[, 4] < degth[i]), which(statTF.m[, 1] > lfcth[i]))
-    return(rownames(statTF.m[toiTF.idx, ]))
+
+    rownames(statTF.m[toiTF.idx, ])
   })
-                                   
-  toiTF.v <- toiTF.lv[[1]]
-  if (length(toiTF.lv) > 1) {
-    for (i in 2:length(toiTF.lv)) {
-      toiTF.v <- intersect(toiTF.v, toiTF.lv[[i]])
-    }
-  }
+  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< YC
+  #toiTF.v <- toiTF.lv[[1]]
+  #if (length(toiTF.lv) > 1) {
+  #  for (i in seq(2,length(toiTF.lv))) {
+  #    toiTF.v <- intersect(toiTF.v, toiTF.lv[[i]])
+  #  }
+  #}
+  summ <- summary(factor(unlist(lapply(toiTF.lv, unique))))
+  toiTF.v <- names(summ)[summ == length(toiTF.lv)]
+  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
   map.idx <- match(toiTF.v, colnames(gtexNETf.m))
 
   if (length(map.idx) <= 1) stop(paste0("Only ", length(map.idx), "TFs in your network. Could try releasing the threshold 'lfcth'/'degth'/'minNtgts' to keep more."))
@@ -205,15 +254,23 @@ sepiraInfNet <- function(data, tissue, toi, cft = NULL, TFs, sdth = 0.25, sigth 
   rownames(distNet.m) <- colnames(netTOI.m)
   colnames(distNet.m) <- c("nTGTS", "Act", "Rep")
   distNet.m[, 1] <- apply(abs(netTOI.m), 2, sum)
-  
-  act.idx <- matrix(nrow = ncol(netTOI.m), ncol = 3)
-  act.idx[netTOI.m != 1] <- 0
 
-  inact.idx <- matrix(nrow = ncol(netTOI.m), ncol = 3)
+  #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< dvantwisk
+  #for (c in 1:ncol(netTOI.m)) {
+  #  act.idx <- which(netTOI.m[, c] == 1)
+  #  inact.idx <- which(netTOI.m[, c] == -1)
+  #  distNet.m[c, 2:3] <- c(length(act.idx), length(inact.idx))
+  #}
+  act.idx <- netTOI.m
+  act.idx[netTOI.m != 1] <- 0
+  act.idx[netTOI.m == 1] <- 1
+
+  inact.idx <- netTOI.m
   inact.idx[netTOI.m != -1] <- 0
   inact.idx[netTOI.m == -1] <- 1
 
-  distNet.m[, 2:3] <- rbind(colSums(act.idx), colSums(inact.idx))
+  distNet.m[, 2:3] <- cbind(colSums(act.idx), colSums(inact.idx))
+  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   return(list(netTOI = netTOI.m, sumnet = distNet.m, top = topTOI.lm))
 }  ### end of function sepiraInfNet

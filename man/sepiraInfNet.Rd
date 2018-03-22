@@ -9,32 +9,32 @@ sepiraInfNet(data, tissue, toi, cft = NULL, TFs, sdth = 0.25,
   log2(1.5)), minNtgts = 10, ncores = 4)
 }
 \arguments{
-\item{data}{The normalized gene expression data matrix, with rows referring to unique genes and columns to samples from different tissue types.}
+\item{data}{A matrix, the normalized gene expression data matrix, with rows referring to unique genes and columns to samples from different tissue types.}
 
 \item{tissue}{A phenotype vector, indicating the tissue types of samples. It should have the same order as the columns of the matrix.}
 
-\item{toi}{The tissue type of interest, a character telling the function the tissue type for which a user wants to estimate the network.}
+\item{toi}{A character, the tissue type of interest, a character telling the function the tissue type for which a user wants to estimate the network.}
 
 \item{cft}{A vector of tissue types to be used to adjust for confounding by immune or stromal cells infiltration in \code{toi}. It can be blood and/or spleen, which we found using \code{ESTIMATE} package that they contain extremely high proportion of immune and stromal cells.}
 
 \item{TFs}{A vector of TFs. Note that one should use the same annotation in different data sets throughout the analysis.}
 
-\item{sdth}{The standard deviation threshold used to remove genes with little or zero standard deviation of its expression levels.}
+\item{sdth}{A numeric, the standard deviation threshold used to remove genes with little or zero standard deviation of its expression levels.}
 
-\item{sigth}{The unadjusted p-value threshold used to call significant interactions after calculating the correlation coefficients between TFs and target genes. This threshold is used to binarize the correlation coefficient matrix. If this value is not specified by user, the function will do Bonferroni correction and then use 0.05 as the threshold.}
+\item{sigth}{A numeric, the unadjusted p-value threshold used to call significant interactions after calculating the correlation coefficients between TFs and target genes. This threshold is used to binarize the correlation coefficient matrix. If this value is not specified by user, the function will do Bonferroni correction and then use 0.05 as the threshold.}
 
-\item{pcorth}{The partial correlation threshold, in the range between 0 and 1, used to remove indirect interactions between TFs and their target genes.}
+\item{pcorth}{A numeric, the partial correlation threshold, in the range between 0 and 1, used to remove indirect interactions between TFs and their target genes.}
 
 \item{degth}{A vector of length three, thresholds of adjusted p-value to call significant TFs in 1) comparison between \code{toi} and all other tissue types; 2) & 3) comparison between \code{toi} and blood/spleen in \code{cft}.}
 
-\item{lfcth}{vector of length three, thresholds of log2(fold-change) to call significant TFs in 1) comparison between \code{toi} and all other tissue types; 2) & 3) comparison between \code{toi} and blood/spleen in \code{cft}.}
+\item{lfcth}{A vector of length three, thresholds of log2(fold-change) to call significant TFs in 1) comparison between \code{toi} and all other tissue types; 2) & 3) comparison between \code{toi} and blood/spleen in \code{cft}.}
 
 \item{minNtgts}{An integer used to filter out TFs with few targets. Only TFs with more than `minNtgts` target genes can be kept in the network.}
 
-\item{ncores}{The number of cores to use when computing partial correlation. See \code{mclapply}.}
+\item{ncores}{An integer, the number of cores to use when computing partial correlation. See \code{mclapply}.}
 }
 \value{
-The output is a list with three entries:
+A list with three entries:
 
 \code{$netTOI} the tissue specific network, rows refer to TF target genes, while columns refer to TFs.
 
