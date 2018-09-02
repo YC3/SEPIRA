@@ -1,11 +1,12 @@
 ---
-title: "Introduction to `SEPIRA`"
+title: "Introduction to SEPIRA"
 author: "Yuting Chen and Andrew Teschendorff"
 date: "`r Sys.Date()`"
 bibliography: SEPIRA.bib
 output:
-  rmarkdown::html_vignette:
-    smart: false
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Introduction to `SEPIRA`}
