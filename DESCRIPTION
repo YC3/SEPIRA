@@ -2,7 +2,7 @@ Package: SEPIRA
 Type: Package
 Title: Systems EPigenomics Inference of Regulatory Activity
 Description: SEPIRA (Systems EPigenomics Inference of Regulatory Activity) is an algorithm that infers sample-specific transcription factor activity from the genome-wide expression or DNA methylation profile of the sample.
-Version: 1.1.1
+Version: 1.0.1
 Date: 2017-08-03
 Author: Yuting Chen [aut, cre],
   Andrew Teschendorff [aut]
