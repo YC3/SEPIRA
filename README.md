@@ -35,7 +35,6 @@ Alternatively, the package can also be cloned or downloaded from this github-rep
 ## Getting started
 The SEPIRA package contains a tutorial showing people how to implement SEPIRA in their work. The tutorial can be found in the package-vignette:
 
-library(SEPIRA)
 vignette("SEPIRA")
 
 ## References
