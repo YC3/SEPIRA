@@ -40,4 +40,4 @@ vignette("SEPIRA")
 
 ## References
 
-Chen Y, Widschwendter M, and Teschendorff AE. 2017. ¡°Systems-Epigenomics Inference of Transcription Factor Activity Implicates Aryl-Hydrocarbon-Receptor Inactivation as a Key Event in Lung Cancer Development.¡± Genome Biol 18:236.
+Chen Y, Widschwendter M, and Teschendorff AE. 2017. Systems-Epigenomics Inference of Transcription Factor Activity Implicates Aryl-Hydrocarbon-Receptor Inactivation as a Key Event in Lung Cancer Development. Genome Biol 18:236.
