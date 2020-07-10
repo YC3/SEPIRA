@@ -4,9 +4,20 @@
 \alias{sepiraInfNet}
 \title{Infer tissue-specific regulatory network from gene expression data}
 \usage{
-sepiraInfNet(data, tissue, toi, cft = NULL, TFs, sdth = 0.25,
-  sigth = NULL, pcorth = 0.2, degth = c(0.05, 0.05), lfcth = c(1,
-  log2(1.5)), minNtgts = 10, ncores = 4)
+sepiraInfNet(
+  data,
+  tissue,
+  toi,
+  cft = NULL,
+  TFs,
+  sdth = 0.25,
+  sigth = NULL,
+  pcorth = 0.2,
+  degth = c(0.05, 0.05),
+  lfcth = c(1, log2(1.5)),
+  minNtgts = 10,
+  ncores = 4
+)
 }
 \arguments{
 \item{data}{A matrix, the normalized gene expression data matrix, with rows referring to unique genes and columns to samples from different tissue types.}

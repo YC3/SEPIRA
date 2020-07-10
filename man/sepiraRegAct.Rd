@@ -4,8 +4,13 @@
 \alias{sepiraRegAct}
 \title{Infer TF activity from gene expression/ DNA methylation profile}
 \usage{
-sepiraRegAct(data, type = c("mRNA", "DNAm"), regnet, norm = c("c", "z"),
-  ncores = 4)
+sepiraRegAct(
+  data,
+  type = c("mRNA", "DNAm"),
+  regnet,
+  norm = c("c", "z"),
+  ncores = 4
+)
 }
 \arguments{
 \item{data}{A gene expression or DNA methylation data matrix, with rows referring to genes and columns to samples.}

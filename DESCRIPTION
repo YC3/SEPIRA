@@ -13,7 +13,7 @@ biocViews: GeneExpression, Transcription, GeneRegulation, GeneTarget,
 Depends: R (>= 3.5.0)
 Encoding: UTF-8
 Imports: limma (>= 3.32.5), corpcor (>= 1.6.9), parallel (>= 3.3.1), stats
-RoxygenNote: 6.0.1
+RoxygenNote: 7.0.2
 Suggests: knitr,
     rmarkdown,
     testthat,
