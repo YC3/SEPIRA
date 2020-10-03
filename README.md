@@ -1,5 +1,5 @@
 # SEPIRA-package
-Systens EPigenomics Inference of Regulatory Activity
+Systems EPigenomics Inference of Regulatory Activity
 
 `SEPIRA` is a novel algorithm which estimates transcription factor activity in any given sample from its genome-wide mRNA expression or DNA methylation profile[1]. It encompasses two main steps:
 
