@@ -9,7 +9,7 @@ Systems EPigenomics Inference of Regulatory Activity
 ## Usage
 #### Inferring tissue-specific network
 
-```{r eval=FALSE}
+```R
 net.o <- sepiraInfNet(data=data.m, tissue=colnames(data.m), toi = "Lung", cft = "Blood",
          TFs = TFeid, sdth = 0.25, sigth = 0.05, pcorth = 0.2, degth = c(0.05, 0.05),
          lfcth = c(log2(1.5), 0), minNtgts = 3, ncores = 1)
@@ -17,7 +17,7 @@ net.o <- sepiraInfNet(data=data.m, tissue=colnames(data.m), toi = "Lung", cft = 
 ** Note: `data.m` should be a normalized gene expression data set.
 
 #### Estimating transcription factor activity
-```{r eval=FALSE}
+```R
 sepiraRegAct(data = data.m, type = "DNAm", regnet = net.o$netTOI, norm = "z", ncores = 1)
 ```
 
@@ -25,16 +25,18 @@ sepiraRegAct(data = data.m, type = "DNAm", regnet = net.o$netTOI, norm = "z", nc
 
 An easy way to install SEPIRA is by facilitating the devtools R package.
 
-```{r eval=FALSE}
+```R
 #install.packages("devtools")
 devtools::install_github("YC3/SEPIRA", build_vignettes=TRUE)
 ```
 Alternatively, the package can also be cloned or downloaded from this github-rep, built via R CMD build and installed via the R CMD INSTALL command.
 
 ## Getting started
-The SEPIRA package contains a tutorial showing people how to implement SEPIRA in their work. The tutorial can be found in the package-vignette:
+The SEPIRA package contains a tutorial showing people how to implement SEPIRA in their work. The tutorial can be found in the package-vignette [here](https://bioconductor.org/packages/release/bioc/vignettes/SEPIRA/inst/doc/SEPIRA.html) or generate one with:
 
+```R
 vignette("SEPIRA")
+```
 
 ## References
 
